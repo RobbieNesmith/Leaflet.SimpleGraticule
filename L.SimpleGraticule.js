@@ -132,11 +132,13 @@ L.SimpleGraticule = L.LayerGroup.extend({
 
     buildLabel: function(axis, val) {
         var bounds = this._map.getBounds().pad(-0.003);
+        var top = this._map.options.crs.transformation._c > 0 ? bounds.getSouth() : bounds.getNorth();
+        var left = this._map.options.crs.transformation._a > 0 ? bounds.getWest() : bounds.getEast();
         var latLng;
         if (axis == 'gridlabel-horiz') {
-            latLng = new L.LatLng(bounds.getNorth(), val);
+            latLng = new L.LatLng(top, val);
         } else {
-            latLng = new L.LatLng(val, bounds.getWest());
+            latLng = new L.LatLng(val, left);
         }
 
         return L.marker(latLng, {
